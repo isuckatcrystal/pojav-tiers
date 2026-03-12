@@ -1,0 +1,2057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pojav Tiers v2.0 • Premium Gaming Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Deep Space Theme */
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --glass-bg: rgba(30, 41, 59, 0.4);
+  --glass-border: rgba(148, 163, 184, 0.1);
+  
+  /* Text Colors */
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #64748b;
+  
+  /* Tier Colors - Vibrant Gradients */
+  --tier-ht1: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  --tier-ht1-glow: #fbbf2460;
+  --tier-lt1: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  --tier-lt1-glow: #f59e0b60;
+  --tier-ht2: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  --tier-ht2-glow: #8b5cf660;
+  --tier-lt2: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+  --tier-lt2-glow: #7c3aed60;
+  --tier-ht3: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+  --tier-ht3-glow: #06b6d460;
+  --tier-lt3: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
+  --tier-lt3-glow: #0891b260;
+  --tier-ht4: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  --tier-ht4-glow: #10b98160;
+  --tier-lt4: linear-gradient(135deg, #059669 0%, #047857 100%);
+  --tier-lt4-glow: #05966960;
+  --tier-ht5: linear-gradient(135deg, #64748b 0%, #475569 100%);
+  --tier-ht5-glow: #64748b60;
+  --tier-lt5: linear-gradient(135deg, #475569 0%, #334155 100%);
+  --tier-lt5-glow: #47556960;
+  --tier-unranked: linear-gradient(135deg, #334155 0%, #1e293b 100%);
+  --tier-unranked-glow: #33415560;
+  
+  /* Animations */
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  min-height: 100vh;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.1) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.1) 0px, transparent 50%);
+}
+
+/* ===== HEADER ===== */
+header {
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 24px 20px;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+.header-content h1 {
+  font-size: clamp(24px, 5vw, 36px);
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.logo-icon {
+  font-size: 1.2em;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+}
+
+.header-content h1 .accent {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 12px var(--tier-ht1-glow));
+}
+
+.header-content .subtitle {
+  display: block;
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-top: 6px;
+  letter-spacing: 2px;
+}
+
+.header-stats {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--glass-border);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat-value {
+  font-size: 20px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+/* ===== NAVIGATION ===== */
+.nav {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 16px 20px;
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--glass-border);
+  scrollbar-width: thin;
+  scrollbar-color: var(--bg-tertiary) transparent;
+}
+
+.nav::-webkit-scrollbar {
+  height: 4px;
+}
+
+.nav::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.nav::-webkit-scrollbar-thumb {
+  background: var(--bg-tertiary);
+  border-radius: 4px;
+}
+
+.nav button {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--text-secondary);
+  padding: 10px 18px;
+  font-weight: 700;
+  font-size: 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: var(--transition-smooth);
+  white-space: nowrap;
+  backdrop-filter: blur(10px);
+}
+
+.nav button img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  filter: grayscale(100%) opacity(0.7);
+  transition: var(--transition-smooth);
+}
+
+.nav button.active {
+  background: rgba(251, 191, 36, 0.15);
+  border-color: rgba(251, 191, 36, 0.3);
+  color: #fbbf24;
+  box-shadow: 0 0 20px var(--tier-ht1-glow);
+}
+
+.nav button.active img {
+  filter: grayscale(0%) opacity(1);
+}
+
+.nav button:hover:not(.active) {
+  background: rgba(30, 41, 59, 0.8);
+  border-color: rgba(148, 163, 184, 0.3);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+}
+
+.nav button:hover:not(.active) img {
+  filter: grayscale(50%) opacity(0.9);
+}
+
+/* ===== CONTROLS ===== */
+.controls {
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 18px;
+  pointer-events: none;
+}
+
+.filter-wrapper {
+  min-width: 150px;
+}
+
+.filter-wrapper select {
+  width: 100%;
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2394a3b8' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+.filter-wrapper select:focus {
+  outline: none;
+  border-color: rgba(251, 191, 36, 0.5);
+  box-shadow: 0 0 0 3px var(--tier-ht1-glow);
+}
+
+.filter-wrapper select:hover {
+  border-color: rgba(148, 163, 184, 0.3);
+}
+
+input[type="text"] {
+  width: 100%;
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+  padding: 12px 16px 12px 42px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  transition: var(--transition-smooth);
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: rgba(251, 191, 36, 0.5);
+  box-shadow: 0 0 0 3px var(--tier-ht1-glow);
+}
+
+input[type="text"]:hover {
+  border-color: rgba(148, 163, 184, 0.3);
+}
+
+.sort-toggle {
+  display: flex;
+  gap: 8px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 4px;
+}
+
+.sort-toggle button {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding: 8px 16px;
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.sort-toggle button.active {
+  background: rgba(251, 191, 36, 0.15);
+  color: #fbbf24;
+}
+
+.sort-toggle button:hover:not(.active) {
+  color: var(--text-secondary);
+}
+
+.sync-button {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sync-button:hover {
+  background: rgba(16, 185, 129, 0.2);
+  border-color: rgba(16, 185, 129, 0.4);
+  color: #10b981;
+  transform: translateY(-2px);
+}
+
+.sync-button:active {
+  transform: translateY(0);
+}
+
+.sync-button.syncing {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.sync-button.syncing span {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+}
+
+/* ===== PLAYER GRID ===== */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.player-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.player-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 20px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+  animation: cardSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+}
+
+@keyframes cardSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.player-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--tier-gradient);
+  opacity: 0;
+  transition: var(--transition-smooth);
+}
+
+.player-card:hover::before {
+  opacity: 1;
+}
+
+.player-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  border-color: var(--tier-glow-color);
+  box-shadow: 0 12px 36px var(--tier-glow-color), 0 0 0 1px var(--tier-glow-color);
+}
+
+.player-header {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  align-items: center;
+}
+
+.player-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  border: 2px solid var(--glass-border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: var(--transition-smooth);
+}
+
+.player-card:hover .player-avatar {
+  transform: scale(1.05);
+  border-color: var(--tier-glow-color);
+  box-shadow: 0 4px 20px var(--tier-glow-color);
+}
+
+.player-info {
+  flex: 1;
+}
+
+.player-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.player-tier-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  background: var(--tier-gradient);
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px var(--tier-glow-color);
+}
+
+.player-footer {
+  display: flex;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--glass-border);
+}
+
+.player-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.stat-icon {
+  font-size: 14px;
+}
+
+.stat-text {
+  font-size: 12px;
+}
+
+.player-rank {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.top-badge {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  background: var(--badge-gradient);
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+  animation: badgePulse 2s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* ===== EMPTY STATE ===== */
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  animation: fadeIn 0.5s ease;
+}
+
+.empty-state-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+  opacity: 0.3;
+}
+
+.empty-state h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.empty-state p {
+  color: var(--text-muted);
+  font-size: 15px;
+}
+
+/* ===== PROFILE MODAL ===== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: overlayFadeIn 0.3s ease;
+  padding: 20px;
+}
+
+@keyframes overlayFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.profile-modal {
+  background: var(--bg-secondary);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 32px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  animation: modalSlideUp 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--text-secondary);
+  font-size: 20px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.5);
+  color: #ef4444;
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.profile-avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 16px;
+  margin: 0 auto 16px;
+  border: 3px solid var(--glass-border);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.profile-name {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.profile-overall-tier {
+  display: inline-block;
+  padding: 8px 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  background: var(--tier-gradient);
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 16px var(--tier-glow-color);
+}
+
+.profile-tiers {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profile-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 16px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+}
+
+.summary-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.summary-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.summary-value {
+  font-size: 24px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.tier-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  transition: var(--transition-smooth);
+}
+
+.tier-row:hover {
+  border-color: rgba(148, 163, 184, 0.3);
+  transform: translateX(4px);
+}
+
+.tier-mode {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.tier-mode img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.tier-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tier-value {
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  background: var(--tier-gradient);
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tier-points {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  min-width: 50px;
+  text-align: right;
+}
+
+/* ===== ADMIN PANEL ===== */
+.admin-panel {
+  display: none;
+  margin: 20px auto;
+  max-width: 600px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.admin-panel h2 {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.admin-panel label {
+  display: block;
+  margin: 12px 0 6px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.admin-panel select,
+.admin-panel input[type="text"] {
+  width: 100%;
+  background: var(--bg-primary);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  transition: var(--transition-smooth);
+}
+
+.admin-panel select:focus,
+.admin-panel input[type="text"]:focus {
+  outline: none;
+  border-color: rgba(251, 191, 36, 0.5);
+  box-shadow: 0 0 0 3px var(--tier-ht1-glow);
+}
+
+.admin-panel button {
+  margin-top: 16px;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  color: #000;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: var(--transition-smooth);
+}
+
+.admin-panel button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--tier-ht1-glow);
+}
+
+/* ===== LOGIN MODAL ===== */
+.login-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1001;
+  padding: 20px;
+}
+
+.login-modal.active {
+  display: flex;
+}
+
+.login-box {
+  background: var(--bg-secondary);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 32px;
+  width: 100%;
+  max-width: 360px;
+  animation: modalSlideUp 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+}
+
+.login-box h2 {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  text-align: center;
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.login-box input {
+  width: 100%;
+  background: var(--bg-primary);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  margin-bottom: 12px;
+  transition: var(--transition-smooth);
+}
+
+.login-box input:focus {
+  outline: none;
+  border-color: rgba(251, 191, 36, 0.5);
+  box-shadow: 0 0 0 3px var(--tier-ht1-glow);
+}
+
+.login-box button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  color: #000;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: var(--transition-smooth);
+}
+
+.login-box button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--tier-ht1-glow);
+}
+
+/* ===== FOOTER ===== */
+footer {
+  text-align: center;
+  padding: 24px 20px;
+  color: var(--text-muted);
+  font-size: 13px;
+  border-top: 1px solid var(--glass-border);
+  margin-top: 40px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .player-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .controls {
+    flex-direction: column;
+  }
+  
+  .search-wrapper {
+    max-width: 100%;
+  }
+  
+  .filter-wrapper {
+    width: 100%;
+  }
+  
+  .sort-toggle {
+    width: 100%;
+  }
+  
+  .sort-toggle button {
+    flex: 1;
+  }
+  
+  .header-stats {
+    gap: 16px;
+  }
+  
+  .stat-value {
+    font-size: 18px;
+  }
+  
+  .stat-label {
+    font-size: 10px;
+  }
+  
+  .profile-summary {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding: 12px;
+  }
+  
+  .summary-value {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .player-header {
+    gap: 12px;
+  }
+  
+  .player-avatar {
+    width: 56px;
+    height: 56px;
+  }
+  
+  .player-name {
+    font-size: 16px;
+  }
+  
+  .player-footer {
+    gap: 8px;
+  }
+  
+  .header-stats {
+    gap: 12px;
+  }
+  
+  .profile-modal {
+    padding: 24px;
+  }
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-tertiary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--bg-secondary);
+}
+
+/* ===== LOADING STATE ===== */
+.loading {
+  display: none;
+  text-align: center;
+  padding: 40px;
+  color: var(--text-muted);
+}
+
+.loading.active {
+  display: block;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-content">
+    <h1>
+      <span class="logo-icon">⚔️</span>
+      Pojav <span class="accent">Tiers</span>
+    </h1>
+    <span class="subtitle">• OFFICIAL COMPETITIVE RANKINGS •</span>
+    <div class="header-stats" id="headerStats">
+      <div class="stat-item">
+        <span class="stat-value" id="totalPlayers">0</span>
+        <span class="stat-label">Players</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value" id="totalModes">11</span>
+        <span class="stat-label">Modes</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value" id="currentMode">Overall</span>
+        <span class="stat-label">Viewing</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value" id="syncIndicator">🔗 Live</span>
+        <span class="stat-label">Status</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- NAVIGATION -->
+<div class="nav" id="nav"></div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <div class="search-wrapper">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="search" placeholder="Search players by name..." oninput="onSearch()">
+  </div>
+  <div class="filter-wrapper">
+    <select id="tierFilter" onchange="render()">
+      <option value="ALL">All Tiers</option>
+      <option value="HT1">HT1</option>
+      <option value="LT1">LT1</option>
+      <option value="HT2">HT2</option>
+      <option value="LT2">LT2</option>
+      <option value="HT3">HT3</option>
+      <option value="LT3">LT3</option>
+      <option value="HT4">HT4</option>
+      <option value="LT4">LT4</option>
+      <option value="HT5">HT5</option>
+      <option value="LT5">LT5</option>
+      <option value="UNRANKED">Unranked</option>
+    </select>
+  </div>
+  <div class="sort-toggle">
+    <button id="sortRank" class="active" onclick="setSortMode('rank')">By Rank</button>
+    <button id="sortAlpha" onclick="setSortMode('alpha')">A-Z</button>
+  </div>
+  <button class="sync-button" onclick="manualSync()" id="syncButton">
+    <span>🔄</span> Sync Now
+  </button>
+</div>
+
+<!-- PLAYER GRID -->
+<div class="container">
+  <div class="player-grid" id="playerGrid"></div>
+  <div class="empty-state" id="emptyState" style="display:none;">
+    <div class="empty-state-icon">🔍</div>
+    <h3>No players found</h3>
+    <p>Try adjusting your search or filter criteria</p>
+  </div>
+  <div class="loading" id="loading">
+    <p>Loading players...</p>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="admin-panel" id="adminPanel">
+  <h2>🛡️ Admin Panel</h2>
+  <label>Action:</label>
+  <select id="adminAction" onchange="showAdminForm()">
+    <option value="">Select Action</option>
+    <option value="add">Add Player</option>
+    <option value="edit">Edit Player</option>
+    <option value="remove">Remove Player</option>
+  </select>
+  <div id="adminForm"></div>
+</div>
+
+<!-- PROFILE MODAL -->
+<div class="modal-overlay" id="profileOverlay" onclick="closeProfileIfOverlay(event)">
+  <div class="profile-modal">
+    <button class="modal-close" onclick="closeProfile()">✕</button>
+    <div class="profile-header">
+      <img id="profileAvatar" class="profile-avatar">
+      <h2 class="profile-name" id="profileName"></h2>
+      <span class="profile-overall-tier" id="profileOverallTier"></span>
+    </div>
+    <div class="profile-tiers" id="profileTiers"></div>
+  </div>
+</div>
+
+<!-- LOGIN MODAL -->
+<div class="login-modal" id="loginModal">
+  <div class="login-box">
+    <h2>🔐 Admin Access</h2>
+    <input id="adminUser" placeholder="Username" autocomplete="off">
+    <input id="adminPass" placeholder="Password" type="password" autocomplete="off">
+    <button onclick="loginAdmin()">Login</button>
+  </div>
+</div>
+
+<footer>
+  © 2026 Official Pojav Tierlist Authority — Built with 💎 by the community
+</footer>
+
+<script>
+// ===== CONFIGURATION =====
+const GITHUB_RAW_URL = "https://raw.githubusercontent.com/ISuckAtCrystal/RYDRUXJQRYDRUXJQRYDRUXJQRYDRUXJQ/main/tiers.json";
+const AUTO_SYNC_INTERVAL = 30000; // 30 seconds
+const RETRY_DELAY = 5000; // 5 seconds on failure
+const MAX_RETRIES = 3;
+
+const modes = [
+  {id:"Overall", icon:"https://mctiers.com/tier_icons/trophy.svg"},
+  {id:"Vanilla", icon:"https://mctiers.com/tier_icons/vanilla.svg"},
+  {id:"Pot", icon:"https://mctiers.com/tier_icons/pot.svg"},
+  {id:"NethPot", icon:"https://mctiers.com/tier_icons/nethop.svg"},
+  {id:"Sword", icon:"https://mctiers.com/tier_icons/sword.svg"},
+  {id:"Axe", icon:"https://mctiers.com/tier_icons/axe.svg"},
+  {id:"Uhc", icon:"https://mctiers.com/tier_icons/uhc.svg"},
+  {id:"Smp", icon:"https://mctiers.com/tier_icons/smp.svg"},
+  {id:"Cart", icon:"https://mctiers.com/tier_icons/cart.svg"},
+  {id:"DiamondSmp", icon:"https://mctiers.com/tier_icons/smp.svg"},
+  {id:"Mace", icon:"https://mctiers.com/tier_icons/mace.svg"}
+];
+
+const TIER_POINTS = {
+  "HT1": 100, "LT1": 90, "HT2": 80, "LT2": 70, "HT3": 60,
+  "LT3": 50, "HT4": 40, "LT4": 30, "HT5": 20, "LT5": 10, "UNRANKED": 0
+};
+
+const TIER_STYLES = {
+  "HT1": {gradient: "var(--tier-ht1)", glow: "var(--tier-ht1-glow)"},
+  "LT1": {gradient: "var(--tier-lt1)", glow: "var(--tier-lt1-glow)"},
+  "HT2": {gradient: "var(--tier-ht2)", glow: "var(--tier-ht2-glow)"},
+  "LT2": {gradient: "var(--tier-lt2)", glow: "var(--tier-lt2-glow)"},
+  "HT3": {gradient: "var(--tier-ht3)", glow: "var(--tier-ht3-glow)"},
+  "LT3": {gradient: "var(--tier-lt3)", glow: "var(--tier-lt3-glow)"},
+  "HT4": {gradient: "var(--tier-ht4)", glow: "var(--tier-ht4-glow)"},
+  "LT4": {gradient: "var(--tier-lt4)", glow: "var(--tier-lt4-glow)"},
+  "HT5": {gradient: "var(--tier-ht5)", glow: "var(--tier-ht5-glow)"},
+  "LT5": {gradient: "var(--tier-lt5)", glow: "var(--tier-lt5-glow)"},
+  "UNRANKED": {gradient: "var(--tier-unranked)", glow: "var(--tier-unranked-glow)"}
+};
+
+// ===== ADMIN SECURITY =====
+const ADMIN_TRIGGER_HASH = "42bd3413aa777a8f9fccda69771c7519dcfdba01a2df402e9468e34afe5d9bd8";
+const ADMIN_USER_HASH = "de2f72d01335e23632c95f90a8b21ab3742a585278adae2d7b98e045b2e3bd48";
+const ADMIN_PASS_HASH = "62bcf26686a5fa7a8c74aea4fb5c68acc860db3874d9dea28f853124c7877f16";
+const SALT = "R8mK3XwZ6vQpN1BfT9sLjC5aD2yG0H4eUoIiW7rVtSxAkFqPbMzYhEnLdOcJgVuRk9Xc2TjM8AqNp4WbFs6DyZhG1LvOuEi0KmS5QrTyHaJfC7BwVz3PgL";
+
+// ===== STATE =====
+let mode = "Overall";
+let sortMode = "rank";
+let players = JSON.parse(localStorage.getItem("poj_players") || "[]");
+let adminUnlocked = false;
+let animationDelay = 0;
+
+// GitHub Sync State
+let syncInProgress = false;
+let lastSyncTime = 0;
+let syncRetryCount = 0;
+let autoSyncInterval = null;
+
+// ===== SHA256 HASHING =====
+async function sha256(msg) {
+  const buf = new TextEncoder().encode(SALT + msg);
+  const hash = await crypto.subtle.digest("SHA-256", buf);
+  return [...new Uint8Array(hash)].map(b => b.toString(16).padStart(2, "0")).join("");
+}
+
+// ===== NAVIGATION RENDERING =====
+function renderNav() {
+  const nav = document.getElementById('nav');
+  nav.innerHTML = "";
+  
+  modes.forEach(m => {
+    const btn = document.createElement("button");
+    btn.className = m.id === mode ? "active" : "";
+    
+    if (m.icon.startsWith("http")) {
+      const img = document.createElement("img");
+      img.src = m.icon;
+      img.alt = m.id;
+      img.onerror = function() {
+        // Fallback if icon fails to load
+        this.style.display = 'none';
+        btn.textContent = m.id;
+      };
+      btn.appendChild(img);
+      btn.appendChild(document.createTextNode(m.id));
+    } else {
+      btn.textContent = `${m.icon} ${m.id}`;
+    }
+    
+    btn.onclick = () => {
+      mode = m.id;
+      renderNav();
+      render();
+    };
+    
+    nav.appendChild(btn);
+  });
+}
+
+// ===== OVERALL CALCULATION =====
+function updateOverall() {
+  players.forEach(p => {
+    let bestTier = "UNRANKED";
+    let bestPts = 0;
+    
+    modes.forEach(m => {
+      if (m.id !== "Overall") {
+        const tier = p.tiers[m.id] || "UNRANKED";
+        const pts = TIER_POINTS[tier.toUpperCase()] || 0;
+        
+        if (pts > bestPts) {
+          bestPts = pts;
+          bestTier = tier.toUpperCase();
+        }
+      }
+    });
+    
+    p.tiers.Overall = bestTier;
+  });
+  
+  save();
+}
+
+// ===== SORTING =====
+function setSortMode(newMode) {
+  sortMode = newMode;
+  document.getElementById('sortRank').classList.toggle('active', newMode === 'rank');
+  document.getElementById('sortAlpha').classList.toggle('active', newMode === 'alpha');
+  render();
+}
+
+function sortPlayers(filtered) {
+  if (sortMode === 'alpha') {
+    return filtered.sort((a, b) => a.name.localeCompare(b.name));
+  } else {
+    return filtered.sort((a, b) => {
+      const aPts = TIER_POINTS[a.tiers[mode]] || 0;
+      const bPts = TIER_POINTS[b.tiers[mode]] || 0;
+      return bPts - aPts;
+    });
+  }
+}
+
+// ===== PLAYER RENDERING WITH ANIMATIONS =====
+function render() {
+  updateOverall();
+  
+  const grid = document.getElementById('playerGrid');
+  const emptyState = document.getElementById('emptyState');
+  const searchQuery = document.getElementById('search').value.toLowerCase();
+  const tierFilter = document.getElementById('tierFilter').value;
+  
+  // Update header stats
+  document.getElementById('totalPlayers').textContent = players.length;
+  document.getElementById('currentMode').textContent = mode;
+  
+  // Filter players
+  let filtered = players.filter(p => p.name.toLowerCase().includes(searchQuery));
+  
+  // Apply tier filter
+  if (tierFilter !== "ALL") {
+    filtered = filtered.filter(p => {
+      const tier = p.tiers[mode] || "UNRANKED";
+      return tier === tierFilter;
+    });
+  }
+  
+  const sorted = sortPlayers(filtered);
+  
+  // Clear grid with fade out
+  grid.style.opacity = '0';
+  
+  setTimeout(() => {
+    grid.innerHTML = "";
+    animationDelay = 0;
+    
+    if (sorted.length === 0) {
+      emptyState.style.display = 'block';
+      grid.style.opacity = '1';
+      return;
+    }
+    
+    emptyState.style.display = 'none';
+    
+    sorted.forEach((player, index) => {
+      const card = createPlayerCard(player, index + 1);
+      grid.appendChild(card);
+    });
+    
+    grid.style.opacity = '1';
+  }, 150);
+}
+
+function createPlayerCard(player, rank) {
+  const tier = player.tiers[mode] || "UNRANKED";
+  const tierStyle = TIER_STYLES[tier] || TIER_STYLES["UNRANKED"];
+  
+  const card = document.createElement("div");
+  card.className = "player-card";
+  card.style.cssText = `
+    --tier-gradient: ${tierStyle.gradient};
+    --tier-glow-color: ${tierStyle.glow};
+    animation-delay: ${animationDelay}s;
+  `;
+  
+  animationDelay += 0.03;
+  
+  // Top 3 badges
+  let topBadge = '';
+  if (sortMode === 'rank' && rank <= 3) {
+    const badges = {
+      1: {emoji: '🥇', gradient: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)'},
+      2: {emoji: '🥈', gradient: 'linear-gradient(135deg, #94a3b8 0%, #64748b 100%)'},
+      3: {emoji: '🥉', gradient: 'linear-gradient(135deg, #d97706 0%, #92400e 100%)'}
+    };
+    const badge = badges[rank];
+    topBadge = `<div class="top-badge" style="--badge-gradient: ${badge.gradient};">${badge.emoji}</div>`;
+  }
+  
+  // Calculate tier count breakdown
+  const tierCounts = {};
+  modes.forEach(m => {
+    if (m.id !== "Overall") {
+      const t = player.tiers[m.id] || "UNRANKED";
+      tierCounts[t] = (tierCounts[t] || 0) + 1;
+    }
+  });
+  
+  // Find best non-overall tier
+  let bestTierDisplay = "UNRANKED";
+  let bestPoints = 0;
+  modes.forEach(m => {
+    if (m.id !== "Overall") {
+      const t = player.tiers[m.id] || "UNRANKED";
+      const pts = TIER_POINTS[t.toUpperCase()] || 0;
+      if (pts > bestPoints) {
+        bestPoints = pts;
+        bestTierDisplay = t;
+      }
+    }
+  });
+  
+  card.innerHTML = `
+    ${topBadge}
+    <div class="player-rank">#${rank}</div>
+    <div class="player-header">
+      <img class="player-avatar" src="https://render.crafty.gg/3d/bust/${player.name}" alt="${player.name}" loading="lazy">
+      <div class="player-info">
+        <div class="player-name">${player.name}</div>
+        <span class="player-tier-badge">${tier}</span>
+      </div>
+    </div>
+    <div class="player-footer">
+      <div class="player-stat">
+        <span class="stat-icon">⭐</span>
+        <span class="stat-text">Best: ${bestTierDisplay}</span>
+      </div>
+      <div class="player-stat">
+        <span class="stat-icon">🎮</span>
+        <span class="stat-text">${Object.keys(tierCounts).length} Tiers</span>
+      </div>
+    </div>
+  `;
+  
+  card.onclick = () => showProfile(player);
+  
+  return card;
+}
+
+// ===== PROFILE MODAL =====
+function showProfile(player) {
+  const overlay = document.getElementById('profileOverlay');
+  const avatar = document.getElementById('profileAvatar');
+  const name = document.getElementById('profileName');
+  const overallTier = document.getElementById('profileOverallTier');
+  const tiersContainer = document.getElementById('profileTiers');
+  
+  avatar.src = `https://render.crafty.gg/3d/bust/${player.name}`;
+  name.textContent = player.name;
+  
+  const overall = player.tiers.Overall || "UNRANKED";
+  const overallStyle = TIER_STYLES[overall] || TIER_STYLES["UNRANKED"];
+  overallTier.textContent = `Overall: ${overall}`;
+  overallTier.style.background = overallStyle.gradient;
+  
+  tiersContainer.innerHTML = "";
+  
+  // Calculate statistics
+  const tierCounts = {};
+  let totalPoints = 0;
+  const tierList = [];
+  
+  modes.forEach(m => {
+    if (m.id === "Overall") return;
+    
+    const tier = player.tiers[m.id] || "UNRANKED";
+    const tierStyle = TIER_STYLES[tier] || TIER_STYLES["UNRANKED"];
+    const points = TIER_POINTS[tier.toUpperCase()] || 0;
+    
+    tierCounts[tier] = (tierCounts[tier] || 0) + 1;
+    totalPoints += points;
+    
+    tierList.push({ mode: m, tier, tierStyle, points });
+  });
+  
+  // Sort by points (highest first)
+  tierList.sort((a, b) => b.points - a.points);
+  
+  // Add tier distribution summary
+  const summaryDiv = document.createElement("div");
+  summaryDiv.className = "profile-summary";
+  summaryDiv.innerHTML = `
+    <div class="summary-stat">
+      <span class="summary-label">Total Points</span>
+      <span class="summary-value">${totalPoints}</span>
+    </div>
+    <div class="summary-stat">
+      <span class="summary-label">Avg Points</span>
+      <span class="summary-value">${Math.round(totalPoints / tierList.length)}</span>
+    </div>
+    <div class="summary-stat">
+      <span class="summary-label">Modes Played</span>
+      <span class="summary-value">${tierList.length}</span>
+    </div>
+  `;
+  tiersContainer.appendChild(summaryDiv);
+  
+  // Add each tier
+  tierList.forEach(({ mode, tier, tierStyle, points }) => {
+    const row = document.createElement("div");
+    row.className = "tier-row";
+    row.innerHTML = `
+      <div class="tier-mode">
+        ${mode.icon.startsWith("http") ? `<img src="${mode.icon}" alt="${mode.id}">` : `<span>${mode.icon}</span>`}
+        <span>${mode.id}</span>
+      </div>
+      <div class="tier-info">
+        <span class="tier-value" style="background: ${tierStyle.gradient};">${tier}</span>
+        <span class="tier-points">${points} pts</span>
+      </div>
+    `;
+    
+    tiersContainer.appendChild(row);
+  });
+  
+  overlay.classList.add('active');
+}
+
+function closeProfile() {
+  document.getElementById('profileOverlay').classList.remove('active');
+}
+
+function closeProfileIfOverlay(event) {
+  if (event.target.id === 'profileOverlay') {
+    closeProfile();
+  }
+}
+
+// ===== SEARCH & ADMIN TRIGGER =====
+async function onSearch() {
+  const query = document.getElementById('search').value;
+  const hash = await sha256(query);
+  
+  if (hash === ADMIN_TRIGGER_HASH) {
+    document.getElementById('loginModal').classList.add('active');
+    document.getElementById('search').value = "";
+    return;
+  }
+  
+  render();
+}
+
+// ===== ADMIN LOGIN =====
+async function loginAdmin() {
+  const user = document.getElementById('adminUser').value;
+  const pass = document.getElementById('adminPass').value;
+  
+  const userHash = await sha256(user);
+  const passHash = await sha256(pass);
+  
+  if (userHash === ADMIN_USER_HASH && passHash === ADMIN_PASS_HASH) {
+    adminUnlocked = true;
+    document.getElementById('loginModal').classList.remove('active');
+    document.getElementById('adminPanel').style.display = 'block';
+    alert("✅ Admin access granted!");
+  } else {
+    alert("❌ Invalid credentials!");
+  }
+}
+
+// ===== ADMIN FUNCTIONS =====
+function showAdminForm() {
+  if (!adminUnlocked) return;
+  
+  const form = document.getElementById('adminForm');
+  const action = document.getElementById('adminAction').value;
+  const tierOptions = ["UNRANKED", "HT1", "LT1", "HT2", "LT2", "HT3", "LT3", "HT4", "LT4", "HT5", "LT5"];
+  
+  if (action === "add") {
+    form.innerHTML = `
+      <label>IGN:</label>
+      <input type="text" id="addName" placeholder="Player name">
+      ${modes.filter(m => m.id !== "Overall").map(m => `
+        <label>${m.id} Tier:</label>
+        <select id="add_${m.id}">
+          ${tierOptions.map(t => `<option value="${t}">${t}</option>`).join("")}
+        </select>
+      `).join("")}
+      <button onclick="adminAddPlayer()">Add Player</button>
+    `;
+  } else if (action === "edit") {
+    form.innerHTML = `
+      <label>IGN to Edit:</label>
+      <input type="text" id="editName" placeholder="Player name">
+      ${modes.filter(m => m.id !== "Overall").map(m => `
+        <label>${m.id} Tier:</label>
+        <select id="edit_${m.id}">
+          ${tierOptions.map(t => `<option value="${t}">${t}</option>`).join("")}
+        </select>
+      `).join("")}
+      <button onclick="adminEditPlayer()">Update Player</button>
+    `;
+  } else if (action === "remove") {
+    form.innerHTML = `
+      <label>IGN to Remove:</label>
+      <input type="text" id="removeName" placeholder="Player name">
+      <button onclick="adminRemovePlayer()">Remove Player</button>
+    `;
+  } else {
+    form.innerHTML = "";
+  }
+}
+
+function adminAddPlayer() {
+  const name = document.getElementById('addName').value.trim();
+  
+  if (!name) {
+    alert("❌ Please enter a player name");
+    return;
+  }
+  
+  if (players.some(p => p.name.toLowerCase() === name.toLowerCase())) {
+    alert("❌ Player already exists");
+    return;
+  }
+  
+  const tiers = {};
+  modes.forEach(m => {
+    if (m.id !== "Overall") {
+      tiers[m.id] = document.getElementById(`add_${m.id}`).value || "UNRANKED";
+    }
+  });
+  
+  players.push({ name, tiers });
+  updateOverall();
+  save();
+  render();
+  
+  alert(`✅ Player "${name}" added successfully!`);
+}
+
+function adminEditPlayer() {
+  const name = document.getElementById('editName').value.trim();
+  const player = players.find(p => p.name.toLowerCase() === name.toLowerCase());
+  
+  if (!player) {
+    alert("❌ Player not found");
+    return;
+  }
+  
+  modes.forEach(m => {
+    if (m.id !== "Overall") {
+      const newTier = document.getElementById(`edit_${m.id}`).value;
+      if (newTier) {
+        player.tiers[m.id] = newTier;
+      }
+    }
+  });
+  
+  updateOverall();
+  save();
+  render();
+  
+  alert(`✅ Player "${name}" updated successfully!`);
+}
+
+function adminRemovePlayer() {
+  const name = document.getElementById('removeName').value.trim();
+  
+  if (!name) {
+    alert("❌ Please enter a player name");
+    return;
+  }
+  
+  const initialLength = players.length;
+  players = players.filter(p => p.name.toLowerCase() !== name.toLowerCase());
+  
+  if (players.length === initialLength) {
+    alert("❌ Player not found");
+    return;
+  }
+  
+  save();
+  render();
+  
+  alert(`✅ Player "${name}" removed successfully!`);
+}
+
+// ===== GITHUB SYNC FUNCTIONS =====
+async function syncFromGitHub(showNotification = false) {
+  if (syncInProgress) {
+    console.log("Sync already in progress, skipping...");
+    return false;
+  }
+  
+  syncInProgress = true;
+  updateSyncStatus("syncing");
+  
+  try {
+    console.log(`Fetching from GitHub... (Attempt ${syncRetryCount + 1}/${MAX_RETRIES})`);
+    
+    // Add cache buster to force fresh data
+    const cacheBuster = Date.now();
+    const url = `${GITHUB_RAW_URL}?t=${cacheBuster}`;
+    
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+    
+    const response = await fetch(url, {
+      method: 'GET',
+      cache: 'no-cache',
+      signal: controller.signal
+    });
+    
+    clearTimeout(timeoutId);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+    
+    const data = await response.json();
+    
+    if (!data || typeof data !== 'object') {
+      throw new Error("Invalid data format from GitHub");
+    }
+    
+    // Convert GitHub format to website format
+    const newPlayers = [];
+    for (const [ign, tiers] of Object.entries(data)) {
+      const player = {
+        name: ign,
+        tiers: {}
+      };
+      
+      // Map abbreviations to full tier names
+      const tierMapping = {
+        "HT1": "HT1", "LT1": "LT1", "HT2": "HT2", "LT2": "LT2",
+        "HT3": "HT3", "LT3": "LT3", "HT4": "HT4", "LT4": "LT4",
+        "HT5": "HT5", "LT5": "LT5", "UNRANKED": "UNRANKED"
+      };
+      
+      // Map gamemode names
+      const gamemodeMapping = {
+        "Nethpot": "NethPot",
+        "Diapot": "Vanilla",
+        "DiaSMP": "DiamondSmp"
+      };
+      
+      for (const [gamemode, tier] of Object.entries(tiers)) {
+        const mappedGamemode = gamemodeMapping[gamemode] || gamemode;
+        const mappedTier = tierMapping[tier.toUpperCase()] || tier.toUpperCase();
+        player.tiers[mappedGamemode] = mappedTier;
+      }
+      
+      newPlayers.push(player);
+    }
+    
+    // Only update if we got data
+    if (newPlayers.length > 0) {
+      const oldCount = players.length;
+      players = newPlayers;
+      lastSyncTime = Date.now();
+      syncRetryCount = 0;
+      save();
+      updateOverall();
+      render();
+      
+      updateSyncStatus("success");
+      
+      if (showNotification) {
+        showSyncNotification(`✅ Synced ${players.length} players from GitHub!`, "success");
+      }
+      
+      console.log(`✅ GitHub sync successful: ${oldCount} → ${players.length} players`);
+      return true;
+    } else {
+      throw new Error("No players found in GitHub data");
+    }
+    
+  } catch (error) {
+    console.error("GitHub sync failed:", error);
+    
+    syncRetryCount++;
+    
+    if (syncRetryCount < MAX_RETRIES) {
+      console.log(`Retrying in ${RETRY_DELAY/1000}s...`);
+      updateSyncStatus("error");
+      setTimeout(() => {
+        syncInProgress = false;
+        syncFromGitHub(showNotification);
+      }, RETRY_DELAY);
+    } else {
+      updateSyncStatus("failed");
+      syncRetryCount = 0;
+      
+      if (showNotification) {
+        showSyncNotification(`❌ Sync failed: ${error.message}. Using cached data.`, "error");
+      }
+    }
+    
+    return false;
+  } finally {
+    if (syncRetryCount === 0 || syncRetryCount >= MAX_RETRIES) {
+      syncInProgress = false;
+    }
+  }
+}
+
+function updateSyncStatus(status) {
+  const syncIndicator = document.getElementById('syncIndicator');
+  if (!syncIndicator) return;
+  
+  const statusConfig = {
+    syncing: { icon: '🔄', text: 'Syncing...', color: '#06b6d4' },
+    success: { icon: '✅', text: 'Synced', color: '#10b981' },
+    error: { icon: '⚠️', text: 'Retrying...', color: '#f59e0b' },
+    failed: { icon: '❌', text: 'Failed', color: '#ef4444' },
+    idle: { icon: '🔗', text: 'Live', color: '#64748b' }
+  };
+  
+  const config = statusConfig[status] || statusConfig.idle;
+  syncIndicator.innerHTML = `<span style="color: ${config.color}">${config.icon} ${config.text}</span>`;
+  
+  // Auto-hide success message after 3 seconds
+  if (status === 'success') {
+    setTimeout(() => updateSyncStatus('idle'), 3000);
+  }
+}
+
+function showSyncNotification(message, type) {
+  const notification = document.createElement('div');
+  notification.className = 'sync-notification';
+  notification.style.cssText = `
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background: ${type === 'success' ? 'rgba(16, 185, 129, 0.9)' : 'rgba(239, 68, 68, 0.9)'};
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    z-index: 10000;
+    animation: slideIn 0.3s ease;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  `;
+  notification.textContent = message;
+  document.body.appendChild(notification);
+  
+  setTimeout(() => {
+    notification.style.animation = 'slideOut 0.3s ease';
+    setTimeout(() => notification.remove(), 300);
+  }, 4000);
+}
+
+function startAutoSync() {
+  // Initial sync
+  syncFromGitHub(true);
+  
+  // Set up interval
+  if (autoSyncInterval) {
+    clearInterval(autoSyncInterval);
+  }
+  
+  autoSyncInterval = setInterval(() => {
+    console.log("Auto-sync triggered...");
+    syncFromGitHub(false);
+  }, AUTO_SYNC_INTERVAL);
+  
+  console.log(`🔄 Auto-sync enabled: every ${AUTO_SYNC_INTERVAL/1000}s`);
+}
+
+function stopAutoSync() {
+  if (autoSyncInterval) {
+    clearInterval(autoSyncInterval);
+    autoSyncInterval = null;
+    console.log("Auto-sync stopped");
+  }
+}
+
+// ===== LOCAL STORAGE =====
+function save() {
+  try {
+    localStorage.setItem("poj_players", JSON.stringify(players));
+    localStorage.setItem("poj_last_sync", lastSyncTime.toString());
+  } catch (e) {
+    console.error("Failed to save to localStorage:", e);
+  }
+}
+
+// ===== DUMMY DATA GENERATOR =====
+function generateDummyPlayers() {
+  const firstNames = [
+    "Shadow", "Flame", "Storm", "Dragon", "Phoenix", "Thunder", "Frost", "Blaze", "Venom", "Ghost",
+    "Dark", "Light", "Swift", "Iron", "Steel", "Silver", "Golden", "Crystal", "Mystic", "Lunar",
+    "Solar", "Crimson", "Azure", "Emerald", "Obsidian", "Diamond", "Ruby", "Sapphire", "Onyx", "Pearl",
+    "Nova", "Void", "Cosmic", "Nebula", "Astral", "Quantum", "Nexus", "Apex", "Prime", "Elite",
+    "Alpha", "Beta", "Omega", "Sigma", "Delta", "Gamma", "Echo", "Zephyr", "Titan", "Vortex"
+  ];
+  
+  const lastNames = [
+    "Slayer", "Hunter", "Warrior", "Knight", "Assassin", "Rogue", "Mage", "Archer", "Paladin", "Reaper",
+    "Blade", "Fang", "Claw", "Strike", "Bolt", "Rage", "Fury", "Wrath", "Doom", "Bane",
+    "Walker", "Runner", "Jumper", "Striker", "Fighter", "Breaker", "Crusher", "Smasher", "Destroyer", "Annihilator",
+    "Master", "Lord", "King", "Prince", "Duke", "Baron", "Champion", "Legend", "Hero", "Sage",
+    "Shadow", "Phantom", "Specter", "Wraith", "Spirit", "Soul", "Ghost", "Revenant", "Sentinel", "Guardian",
+    "Slasher", "Piercer", "Sniper", "Ranger", "Scout", "Vanguard", "Defender", "Protector", "Avenger", "Executioner",
+    "Ninja", "Samurai", "Ronin", "Shogun", "Daimyo", "Sensei", "Dragon", "Tiger", "Wolf", "Bear",
+    "Eagle", "Hawk", "Falcon", "Raven", "Crow", "Phoenix", "Griffin", "Wyvern", "Hydra", "Kraken"
+  ];
+  
+  const allTiers = ["HT1", "LT1", "HT2", "LT2", "HT3", "LT3", "HT4", "LT4", "HT5", "LT5", "UNRANKED"];
+  
+  // Weighted distribution for more realistic tier spread
+  const tierWeights = {
+    "HT1": 2,
+    "LT1": 3,
+    "HT2": 5,
+    "LT2": 8,
+    "HT3": 12,
+    "LT3": 15,
+    "HT4": 18,
+    "LT4": 20,
+    "HT5": 10,
+    "LT5": 5,
+    "UNRANKED": 2
+  };
+  
+  function getWeightedRandomTier() {
+    const totalWeight = Object.values(tierWeights).reduce((a, b) => a + b, 0);
+    let random = Math.random() * totalWeight;
+    
+    for (const [tier, weight] of Object.entries(tierWeights)) {
+      random -= weight;
+      if (random <= 0) return tier;
+    }
+    
+    return "UNRANKED";
+  }
+  
+  const generatedPlayers = [];
+  const usedNames = new Set();
+  
+  for (let i = 0; i < 200; i++) {
+    let playerName;
+    let attempts = 0;
+    
+    // Generate unique name
+    do {
+      const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+      const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+      const suffix = Math.random() > 0.7 ? Math.floor(Math.random() * 999) : "";
+      playerName = `${firstName}${lastName}${suffix}`;
+      attempts++;
+    } while (usedNames.has(playerName) && attempts < 50);
+    
+    usedNames.add(playerName);
+    
+    const tiers = {};
+    modes.forEach(m => {
+      if (m.id !== "Overall") {
+        tiers[m.id] = getWeightedRandomTier();
+      }
+    });
+    
+    generatedPlayers.push({ name: playerName, tiers });
+  }
+  
+  return generatedPlayers;
+}
+
+// ===== MANUAL SYNC =====
+async function manualSync() {
+  const button = document.getElementById('syncButton');
+  if (syncInProgress) return;
+  
+  button.classList.add('syncing');
+  button.disabled = true;
+  
+  await syncFromGitHub(true);
+  
+  button.classList.remove('syncing');
+  button.disabled = false;
+}
+
+// ===== INITIALIZATION =====
+function init() {
+  // Load last sync time from localStorage
+  const savedSyncTime = localStorage.getItem("poj_last_sync");
+  if (savedSyncTime) {
+    lastSyncTime = parseInt(savedSyncTime);
+  }
+  
+  renderNav();
+  
+  // Start auto-sync from GitHub
+  startAutoSync();
+  
+  // Initial render with cached data
+  if (players.length > 0) {
+    updateOverall();
+    render();
+  }
+  
+  // Show sync status
+  const timeSinceSync = Date.now() - lastSyncTime;
+  if (timeSinceSync < 60000) {
+    updateSyncStatus('success');
+  } else {
+    updateSyncStatus('idle');
+  }
+}
+
+// Start the app
+init();
+
+// Handle escape key for modals
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeProfile();
+    document.getElementById('loginModal').classList.remove('active');
+  }
+});
+
+// Handle page visibility - sync when tab becomes visible
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) {
+    const timeSinceSync = Date.now() - lastSyncTime;
+    // Sync if it's been more than 1 minute since last sync
+    if (timeSinceSync > 60000) {
+      console.log("Tab became visible, syncing...");
+      syncFromGitHub(false);
+    }
+  }
+});
+
+// Handle window focus - sync when window gains focus
+window.addEventListener('focus', () => {
+  const timeSinceSync = Date.now() - lastSyncTime;
+  if (timeSinceSync > 60000) {
+    console.log("Window focused, syncing...");
+    syncFromGitHub(false);
+  }
+});
+
+// Cleanup on page unload
+window.addEventListener('beforeunload', () => {
+  stopAutoSync();
+});
+</script>
+
+</body>
+</html>
